@@ -14,21 +14,26 @@ namespace Services.CharacterService
             new Character(),
             new Character{ Name = "Hitman"}
         };
-        public async Task<List<Character>> AddCharacter(Character character)
+        public async Task<ServiceResponse<List<Character>>> AddCharacter(Character character)
         {
+            ServiceResponse<List<Character>> serviceResponse = new ServiceResponse<List<Character>>();
             characters.Add(character);
-            return characters;
+            serviceResponse.Data = characters;
+            return serviceResponse;
         }
 
-        public async Task<List<Character>> GetAllCharacters()
+        public async Task<ServiceResponse<List<Character>>> GetAllCharacters()
         {
-            return characters;
+            ServiceResponse<List<Character>> serviceResponse = new ServiceResponse<List<Character>>();
+            serviceResponse.Data = characters;
+            return serviceResponse;
         } 
 
-        public async Task<Character> GetCharacterById(int id)
+        public async Task<ServiceResponse<Character>> GetCharacterById(int id)
         {
-            var character = characters.FirstOrDefault(c => c.Id == id);
-            return character;
+            ServiceResponse<Character> serviceResponse = new ServiceResponse<Character>();
+            serviceResponse.Data = characters.FirstOrDefault(c => c.Id == id);
+            return serviceResponse;
         }
     }
 }
