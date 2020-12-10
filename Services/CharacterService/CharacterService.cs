@@ -1,4 +1,5 @@
-﻿using Dtos.CharacterDtos;
+﻿using AutoMapper;
+using Dtos.CharacterDtos;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -15,25 +16,33 @@ namespace Services.CharacterService
             new Character(),
             new Character{ Name = "Hitman"}
         };
+        private readonly IMapper mapper;
+
+        public CharacterService(IMapper mapper)
+        {
+            this.mapper = mapper;
+        }
+
         public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto character)
         {
             ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            characters.Add(character);
-            serviceResponse.Data = characters;
+            characters.Add(mapper.Map<Character>(character));
+            serviceResponse.Data = (characters.Select(c => mapper.Map<GetCharacterDto>(c))).ToList();
             return serviceResponse;
         }
 
         public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {
             ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            serviceResponse.Data = characters;
+            serviceResponse.Data = (characters.Select(c => mapper.Map<GetCharacterDto>(c))).ToList();
             return serviceResponse;
         } 
 
         public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
         {
             ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
-            serviceResponse.Data = characters.FirstOrDefault(c => c.Id == id);
+            Character character = characters.FirstOrDefault(c => c.Id == id);
+            serviceResponse.Data = mapper.Map<GetCharacterDto>(character);
             return serviceResponse;
         }
     }
