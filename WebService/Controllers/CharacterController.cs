@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Dtos.CharacterDtos;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services.CharacterService;
@@ -33,7 +34,7 @@ namespace WebService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCharacter(Character character)
+        public async Task<IActionResult> CreateCharacter(AddCharacterDto character)
         {
             
             return Ok(await characterService.AddCharacter(character));
