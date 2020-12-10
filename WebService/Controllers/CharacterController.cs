@@ -21,22 +21,22 @@ namespace WebService.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCharacters()
+        public async Task<IActionResult> GetCharacters()
         {
-            return Ok(characterService.GetAllCharacters());
+            return Ok(await characterService.GetAllCharacters());
         }
         
         [HttpGet("{id}")]
-        public IActionResult GetSingle(int id)
+        public async Task<IActionResult> GetSingle(int id)
         {
-            return Ok(characterService.GetCharacterById(id));
+            return Ok(await characterService.GetCharacterById(id));
         }
 
         [HttpPost]
-        public IActionResult CreateCharacter(Character character)
+        public async Task<IActionResult> CreateCharacter(Character character)
         {
             
-            return Ok(characterService.AddCharacter(character));
+            return Ok(await characterService.AddCharacter(character));
         }
     }
 }
