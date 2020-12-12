@@ -34,10 +34,21 @@ namespace WebService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCharacter(AddCharacterDto character)
+        public async Task<IActionResult> CreateCharacter(AddCharacterDto newCharacter)
         {
             
-            return Ok(await characterService.AddCharacter(character));
+            return Ok(await characterService.AddCharacter(newCharacter));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateCharacter(UpdateCharacterDto updateCharacter)
+        {
+            ServiceResponse<GetCharacterDto> response = await characterService.UpdateCharacter(updateCharacter);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
     }
 }

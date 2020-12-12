@@ -14,7 +14,7 @@ namespace Services.CharacterService
         private static List<Character> characters = new List<Character>
         {
             new Character(),
-            new Character{ Name = "Hitman"}
+            new Character{ Id = 1,  Name = "Hitman"}
         };
         private readonly IMapper mapper;
 
@@ -23,10 +23,12 @@ namespace Services.CharacterService
             this.mapper = mapper;
         }
 
-        public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto character)
+        public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
             ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            characters.Add(mapper.Map<Character>(character));
+            Character character = mapper.Map<Character>(newCharacter);
+            character.Id = characters.Max(c => c.Id) + 1;
+            characters.Add(character);
             serviceResponse.Data = (characters.Select(c => mapper.Map<GetCharacterDto>(c))).ToList();
             return serviceResponse;
         }
@@ -43,6 +45,31 @@ namespace Services.CharacterService
             ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
             Character character = characters.FirstOrDefault(c => c.Id == id);
             serviceResponse.Data = mapper.Map<GetCharacterDto>(character);
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updateCharacter)
+        {
+            ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
+            try
+            {
+                Character character = characters.FirstOrDefault(c => c.Id == updateCharacter.Id);
+                character.HitPoints = updateCharacter.HitPoints;
+                character.Defense = updateCharacter.Defense;
+                character.Class = updateCharacter.Class;
+                character.Intelligence = updateCharacter.Intelligence;
+                character.Strength = updateCharacter.Strength;
+                character.Name = updateCharacter.Name;
+
+                serviceResponse.Data = mapper.Map<GetCharacterDto>(character);
+            }
+            catch (Exception ex)
+            {
+
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            
             return serviceResponse;
         }
     }
