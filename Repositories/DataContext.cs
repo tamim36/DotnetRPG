@@ -9,6 +9,7 @@ namespace Repositories
     public class DataContext : DbContext
     {
         public DbSet<Character> characters { get; set; }
+        public DbSet<User> users { get; set; }
         public DataContext(DbContextOptions<DataContext> options) : base(options){ }
     }
 }
