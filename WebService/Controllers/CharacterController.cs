@@ -1,4 +1,5 @@
 ﻿using Dtos.CharacterDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace WebService.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CharacterController : ControllerBase
@@ -21,6 +23,7 @@ namespace WebService.Controllers
             this.characterService = characterService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCharacters()
         {
