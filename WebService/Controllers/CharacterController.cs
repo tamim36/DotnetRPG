@@ -7,6 +7,7 @@ using Services.CharacterService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace WebService.Controllers
@@ -27,6 +28,7 @@ namespace WebService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCharacters()
         {
+            // int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
             return Ok(await characterService.GetAllCharacters());
         }
         
