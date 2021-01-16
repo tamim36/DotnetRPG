@@ -92,7 +92,13 @@ namespace Services.CharacterService
             ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
             try
             {
-                Character character = await dataContext.characters.FirstOrDefaultAsync(c => c.Id == updateCharacter.Id);
+                Character character = await dataContext.characters.Include(c => c.User).FirstOrDefaultAsync(c => c.Id == updateCharacter.Id);
+                if (character.User.Id != GetUserId())
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "Character not found";
+                    return serviceResponse;
+                }
                 character.HitPoints = updateCharacter.HitPoints;
                 character.Defense = updateCharacter.Defense;
                 character.Class = updateCharacter.Class;
