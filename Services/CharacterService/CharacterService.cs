@@ -82,7 +82,7 @@ namespace Services.CharacterService
         public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
         {
             ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
-            Character character = await dataContext.characters.FirstOrDefaultAsync(c => c.Id == id && c.User.Id == GetUserId());
+            Character character = await dataContext.characters.Include(c => c.Weapon).FirstOrDefaultAsync(c => c.Id == id && c.User.Id == GetUserId());
             serviceResponse.Data = mapper.Map<GetCharacterDto>(character);
             return serviceResponse;
         }

@@ -1,7 +1,9 @@
 ﻿using Models;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Text;
+using Dtos.WeaponDtos;
 
 namespace Dtos.CharacterDtos
 {
@@ -14,5 +16,6 @@ namespace Dtos.CharacterDtos
         public int Defense { get; set; } = 10;
         public int Intelligence { get; set; } = 10;
         public RpgClass Class { get; set; } = RpgClass.Knight;
+        public GetWeaponDto Weapon { get; set; }
     }
 }

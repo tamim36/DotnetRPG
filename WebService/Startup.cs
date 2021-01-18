@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Services.WeaponService;
 
 namespace WebService
 {
@@ -39,6 +40,7 @@ namespace WebService
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ICharacterService, CharacterService>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IWeaponService, WeaponService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             // Authentication Scheme
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
