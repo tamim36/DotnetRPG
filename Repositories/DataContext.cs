@@ -11,7 +11,15 @@ namespace Repositories
         public DbSet<Character> characters { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<Weapon> weapons { get; set; }
+        public DbSet<Skills> skills { get; set; }
+        public DbSet<CharacterSkills> characterSkills { get; set; }
         public DataContext(DbContextOptions<DataContext> options) : base(options){ }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CharacterSkills>()
+                .HasKey(cs => new {cs.CharacterId, cs.SkillsId});
+        }
     }
 }
 
