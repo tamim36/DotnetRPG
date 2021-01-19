@@ -25,5 +25,4 @@ namespace Repositories
 
 /*From Solution Directory ->
 dotnet ef migrations add InitialMigration --startup-project "WebService" --project "Repositories"
-From WebService Directory ->
-dotnet ef database update*/
+dotnet ef database update --startup-project "WebService" --project "Repositories"  */
