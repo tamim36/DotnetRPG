@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Services.CharacterSkillService;
+using Services.FightService;
 using Services.WeaponService;
 
 namespace WebService
@@ -43,6 +44,7 @@ namespace WebService
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IWeaponService, WeaponService>();
             services.AddScoped<ICharacterSkillService, CharacterSkillService>();
+            services.AddScoped<IFightService, FightService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             // Authentication Scheme
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
