@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dtos.SkillsDtos;
 using Dtos.WeaponDtos;
 
 namespace WebService
@@ -13,9 +14,12 @@ namespace WebService
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Character, GetCharacterDto>();
+            CreateMap<Character, GetCharacterDto>()
+                .ForMember(dto => dto.Skills,
+                    c => c.MapFrom(ch => ch.CharacterSkills.Select(cs => cs.Skills)));
             CreateMap<AddCharacterDto, Character>();
             CreateMap<Weapon, GetWeaponDto>();
+            CreateMap<Skills, GetSkillsDto>();
         }
     }
 }
