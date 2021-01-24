@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dtos.SkillsDtos;
 using Dtos.WeaponDtos;
+using Dtos.FightDtos;
 
 namespace WebService
 {
@@ -20,6 +21,7 @@ namespace WebService
             CreateMap<AddCharacterDto, Character>();
             CreateMap<Weapon, GetWeaponDto>();
             CreateMap<Skills, GetSkillsDto>();
+            CreateMap<Character, HighScoreDto>();
         }
     }
 }

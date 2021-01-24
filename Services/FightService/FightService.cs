@@ -1,4 +1,5 @@
-﻿using Dtos.FightDtos;
+﻿using AutoMapper;
+using Dtos.FightDtos;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Repositories;
@@ -13,10 +14,12 @@ namespace Services.FightService
     public class FightService : IFightService
     {
         private readonly DataContext dataContext;
+        private readonly IMapper mapper;
 
-        public FightService(DataContext dataContext)
+        public FightService(DataContext dataContext, IMapper mapper)
         {
             this.dataContext = dataContext;
+            this.mapper = mapper;
         }
 
         public async Task<ServiceResponse<AttackResultDto>> WeaponAttack(WeaponAttackDto request)
@@ -184,6 +187,27 @@ namespace Services.FightService
                 response.Message = ex.Message;
             }
 
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<HighScoreDto>>> GetHighScore()
+        {
+            ServiceResponse<List<HighScoreDto>> response = new ServiceResponse<List<HighScoreDto>>();
+            try
+            {
+                List<Character> characters = await dataContext.characters
+                    .Where(c => c.Fights > 0)
+                    .OrderByDescending(c => c.Victories)
+                    .ThenBy(c => c.Defeats)
+                    .ToListAsync();
+
+                response.Data = characters.Select(c => mapper.Map<HighScoreDto>(c)).ToList();
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
             return response;
         }
     }

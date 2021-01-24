@@ -58,5 +58,17 @@ namespace WebService.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> HighScore()
+        {
+            ServiceResponse<List<HighScoreDto>> response = await fightService.GetHighScore();
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
     }
 }
