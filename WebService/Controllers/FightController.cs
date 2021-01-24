@@ -34,5 +34,29 @@ namespace WebService.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("skill")]
+        public async Task<IActionResult> SkillAttack(SkillAttackDto request)
+        {
+            ServiceResponse<AttackResultDto> response = await fightService.SkillAttack(request);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FightAttack(FightRequestDto request)
+        {
+            ServiceResponse<FightResultDto> response = await fightService.Fight(request);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
     }
 }
