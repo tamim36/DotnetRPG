@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace WebService.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Player, Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CharacterController : ControllerBase

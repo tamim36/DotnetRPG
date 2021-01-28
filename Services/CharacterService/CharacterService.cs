@@ -31,6 +31,8 @@ namespace Services.CharacterService
 
         private int GetUserId() => int.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+        private string GetUserRole() => httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
+
         public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
             ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
@@ -74,7 +76,10 @@ namespace Services.CharacterService
         public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {
             ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            List<Character> dbCharaters = await dataContext.characters.Where(c => c.User.Id == GetUserId()).ToListAsync();
+            List<Character> dbCharaters = 
+                GetUserRole().Equals("Admin") ?
+                await dataContext.characters.ToListAsync() :
+                await dataContext.characters.Where(c => c.User.Id == GetUserId()).ToListAsync();
             serviceResponse.Data = (dbCharaters.Select(c => mapper.Map<GetCharacterDto>(c))).ToList();
             return serviceResponse;
         } 

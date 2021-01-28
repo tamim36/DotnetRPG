@@ -19,6 +19,9 @@ namespace Repositories
         {
             modelBuilder.Entity<CharacterSkills>()
                 .HasKey(cs => new {cs.CharacterId, cs.SkillsId});
+
+            modelBuilder.Entity<User>()
+                .Property(users => users.Role).HasDefaultValue("Player");
         }
     }
 }
